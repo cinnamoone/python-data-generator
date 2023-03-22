@@ -7,33 +7,33 @@ pesel_list = []
 datasmierci = []
 deceasedInfo = []
 
-trunnonosze = [{"_id": "pallbearers1", "serviceName": "trunnonosze","price": "100", "employees": ["WalentyWojtowicz"]},
-{"_id": "pallbearers2", "serviceName": "trunnonosze","price": "200" ,"employees": ["WalentyWojtowicz", "AdamFlorek"]},
-{"_id": "pallbearers3", "serviceName": "trunnonosze", "price": "300", "employees": ["WalentyWojtowicz", "AdamFlorek", "MariuszLesniak"]},
-{"_id": "pallbearers4", "serviceName": "trunnonosze", "price": "350", "employees": ["WalentyWojtowicz", "AdamFlorek", "MariuszLesniak", "StanislawWalczak"]},
-{"_id": "pallbearers5", "serviceName": "trunnonosze", "price": "400", "employees": ["WalentyWojtowicz", "AdamFlorek", "MariuszLesniak", "StanislawWalczak", "KarolTomczak"]},
-{"_id": "pallbearers6", "serviceName": "trunnonosze", "price": "450", "employees": ["WalentyWojtowicz", "AdamFlorek", "MariuszLesniak", "StanislawWalczak", "KarolTomczak","DorianSowa"]}]
+trunnonosze = [{"_id": "pallbearers1", "surviceName": "trunnonosze","price": 100, "employees": ["WalentyWojtowicz"]},
+{"_id": "pallbearers2", "surviceName": "trunnonosze","price": 200 ,"employees": ["WalentyWojtowicz", "AdamFlorek"]},
+{"_id": "pallbearers3", "surviceName": "trunnonosze", "price": 300, "employees": ["WalentyWojtowicz", "AdamFlorek", "MariuszLesniak"]},
+{"_id": "pallbearers4", "surviceName": "trunnonosze", "price": 350, "employees": ["WalentyWojtowicz", "AdamFlorek", "MariuszLesniak", "StanislawWalczak"]},
+{"_id": "pallbearers5", "surviceName": "trunnonosze", "price": 400, "employees": ["WalentyWojtowicz", "AdamFlorek", "MariuszLesniak", "StanislawWalczak", "KarolTomczak"]},
+{"_id": "pallbearers6", "surviceName": "trunnonosze", "price": 450, "employees": ["WalentyWojtowicz", "AdamFlorek", "MariuszLesniak", "StanislawWalczak", "KarolTomczak","DorianSowa"]}]
 
 additionalServices = [
-   {"_id": "urnService", "serviceName": "urna", "price": "200" },
-   {"_id": "coffinService", "serviceName": "trumna", "price": "500"},
-   {"_id": "wreathService", "serviceName": "wieniec", "price": "150"},
-   {"_id": "organistService", "serviceName": "organista", "price": "300", "employees": ["OliwierSzymczak", "ElizaWrobel"]},
-   {"_id": "transportService", "serviceName": "transport", "price": "250"},
-   {"_id": "decorationService", "serviceName": "dekoracje","price": "300"}]
+   {"_id": "urnService", "surviceName": "urna", "price": 200 },
+   {"_id": "coffinService", "surviceName": "trumna", "price": 500},
+   {"_id": "wreathService", "surviceName": "wieniec", "price": 150},
+   {"_id": "organistService", "surviceName": "organista", "price": 300, "employees": ["OliwierSzymczak", "ElizaWrobel"]},
+   {"_id": "transportService", "surviceName": "transport", "price": 250},
+   {"_id": "decorationService", "surviceName": "dekoracje","price": 300}]
 drivers = [
-    "ArkadiuszDomanski",
-    "AntoniMarkowski",
-    "JuliannaSwiatek",
-    "KlaudiuszDudek",
-    "ArkadiuszDomanski"]
+    {"employeeID": "ArkadiuszDomanski"},
+    {"employeeID": "AntoniMarkowski"},
+    {"employeeID": "JuliannaSwiatek"},
+    {"employeeID": "KlaudiuszDudek",},
+    {"employeeID": "ArkadiuszDomanski"}]
 
-cars = ["karawan1",
-        "karawan2", 
-        "karawan3", 
-        "karawan4",
-        "karawan5",
-        "karawan6"]
+cars = [{ "_idCar": "karawan1"},
+        { "_idCar": "karawan2"}, 
+        { "_idCar": "karawan3"}, 
+        { "_idCar": "karawan4"},
+        { "_idCar": "karawan5"},
+        { "_idCar": "karawan6"}]
 
 
 
@@ -210,7 +210,7 @@ nameAndSurname_list = []
 for i in range(700):
         name = random.choice(names)
         surname = random.choice(surnames)
-        _id = f"{name}{surname}{[i+1]}"
+        _id = f"{name}{surname}"
         nameAndSurname_list.append(f"{name} {surname}")
         zmarly.append(_id)
         birth_year = random.randint(1939, 1998)
@@ -272,7 +272,6 @@ f.write(linia)
 f.close()
 
 
-
 cmentarze = ["Cmentarz Batowicki","Cmentarz Grębałów","Cmentarz Kraków-Podgórze",
              "Cmentarz Kraków-Prądnik Czerwony","Cmentarz Mogilski","Cmentarz Mydlniki",
              "Cmentarz Rakowicki", "Cmentarz Salwatorski", "Nowy cmentarz żydowski",
@@ -299,19 +298,16 @@ for i in range(700):
     funeralDates.append(data)
     k = random.randint(1, len(additionalServices))
     services = random.sample(additionalServices, k)
-    lista_str = str(services)
-    lista_str = lista_str.replace("[", "")
-    lista_str = lista_str.replace("]", "")
     pallbearers = random.choice(trunnonosze)
-    aservices = f"[{lista_str}]"
+    aservices = f"{services} {pallbearers}"
     startPrice = 2000
     prices= 0 
     for service in services:
         if "price" in service:
-            prices += int(service["price"])
+            prices += service["price"]
     #print(prices)
     #prices = sum(service['price'] for service in aservices)
-    palprice = int(pallbearers["price"])
+    palprice = pallbearers["price"]
     aservPrice= prices + palprice
     summPrice = startPrice + aservPrice
     transportID = random.choice(transport_list)
@@ -333,9 +329,7 @@ for i in range(700):
             "nameAndSurname": nameAndSurname,
             "pesel": str(pesel)
             },
-        "aservices": {
-            "aservices": services,
-            "pallbearers": pallbearers},
+        "aservices": {"aservice": aservices},
         "transportID": transportID,
         "placeOfBurial": {
             "graveyardName": graveyard,
@@ -362,6 +356,7 @@ for i in range(700):
     graveyards = cmentarze_lista[i]
     communal = czy_communal[i]
     nameAndSurname = nameAndSurname_list[i]
+    namesurname = re.findall(r"[A-Z][a-z]+", deceasedID)
     funeralList.append({
         "_id": idfuneral,
         "funeralDate": datefuneral,
