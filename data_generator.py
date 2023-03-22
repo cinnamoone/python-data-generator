@@ -1,43 +1,43 @@
 import random
 import datetime
-
-deceasedID= []
+from datetime import datetime, timedelta
+import re
+zmarly= []
+pesel_list = []
 datasmierci = []
-
 deceasedInfo = []
 
+trunnonosze = [{"_id": "pallbearers1", "serviceName": "trunnonosze","price": "100", "employees": ["WalentyWojtowicz"]},
+{"_id": "pallbearers2", "serviceName": "trunnonosze","price": "200" ,"employees": ["WalentyWojtowicz", "AdamFlorek"]},
+{"_id": "pallbearers3", "serviceName": "trunnonosze", "price": "300", "employees": ["WalentyWojtowicz", "AdamFlorek", "MariuszLesniak"]},
+{"_id": "pallbearers4", "serviceName": "trunnonosze", "price": "350", "employees": ["WalentyWojtowicz", "AdamFlorek", "MariuszLesniak", "StanislawWalczak"]},
+{"_id": "pallbearers5", "serviceName": "trunnonosze", "price": "400", "employees": ["WalentyWojtowicz", "AdamFlorek", "MariuszLesniak", "StanislawWalczak", "KarolTomczak"]},
+{"_id": "pallbearers6", "serviceName": "trunnonosze", "price": "450", "employees": ["WalentyWojtowicz", "AdamFlorek", "MariuszLesniak", "StanislawWalczak", "KarolTomczak","DorianSowa"]}]
 
 additionalServices = [
-   ' _id: "urnService", surviceName: "urna", price: 200 ',
-   ' _id: "coffinService", surviceName: "trumna", price: 500',
-   'id: "wreathService", surviceName: "wieniec", price: 150',
-   '_id: "organistService", surviceName: "organista", price: 300, employees: ["OliwierSzymczak", "ElizaWrobel"]',
-   '_id: "transportService", surviceName: "transport", price: 250',
-   '_id: "decorationService", surviceName: "dekoracje",price: 300',
-   '_id: "pallbearers1", surviceName: "trunnonosze",price: 100, employees: ["WalentyWojtowicz"]',
-   '_id: "pallbearers2", surviceName: "trunnonosze",price: 200 ,employees: ["WalentyWojtowicz", "AdamFlorek"]',
-   '_id: "pallbearers3", surviceName: "trunnonosze", price: 300, employees: ["WalentyWojtowicz", "AdamFlorek", "MariuszLesniak"]',
-   '_id: "pallbearers4", surviceName: "trunnonosze", price: 350, employees: ["WalentyWojtowicz", "AdamFlorek", "MariuszLesniak", "StanislawWalczak"]',
-   '_id: "pallbearers5", surviceName: "trunnonosze", price: 400, employees: ["WalentyWojtowicz", "AdamFlorek", "MariuszLesniak", "StanislawWalczak", "KarolTomczak"]',
-   '_id: "pallbearers6", surviceName: "trunnonosze", price: 450, employees: ["WalentyWojtowicz", "AdamFlorek", "MariuszLesniak", "StanislawWalczak", "KarolTomczak","DorianSowa"]']
+   {"_id": "urnService", "serviceName": "urna", "price": "200" },
+   {"_id": "coffinService", "serviceName": "trumna", "price": "500"},
+   {"_id": "wreathService", "serviceName": "wieniec", "price": "150"},
+   {"_id": "organistService", "serviceName": "organista", "price": "300", "employees": ["OliwierSzymczak", "ElizaWrobel"]},
+   {"_id": "transportService", "serviceName": "transport", "price": "250"},
+   {"_id": "decorationService", "serviceName": "dekoracje","price": "300"}]
 drivers = [
-    'driver: {employeeID: "ArkadiuszDomanski", nameAndSurname: "Arkadiusz Domański"}',
-    'driver: {employeeID: "AntoniMarkowski", nameAndSurname: "Antoni Markowski"}',
-    'driver: {employeeID: "JuliannaSwiatek", nameAndSurname: "Julianna Świątek"}',
-    'driver: {employeeID: "KlaudiuszDudek",nameAndSurname: "Klaudiusz Dudek"}',
-    'driver: {employeeID: "ArkadiuszDomanski",nameAndSurname: "Arkadiusz Domański"']
+    "ArkadiuszDomanski",
+    "AntoniMarkowski",
+    "JuliannaSwiatek",
+    "KlaudiuszDudek",
+    "ArkadiuszDomanski"]
 
-cars = ['car: { _idCar: "karawan1", markAndModel:"Mercedes-Benz W212 Pilato Skyline", color: "czarny" }',
-        'car: { _idCar: "karawan2", markAndModel:"Renault Trafic 2.0Dci", color: "metaliczny" }', 
-        'car: { _idCar: "karawan3", markAndModel: "Renault Trafic 2.0Dci", color: "metaliczny" }', 
-        'car: { _idCar: "karawan4", markAndModel: "Volkswagen Transporter T5", color: "metaliczny" }',
-        'car: { _idCar: "karawan5", markAndModel: "Mercedes-Benz Vito 114 CDI 4MATIC Extralang", color: "biały" }',
-        'car: { _idCar: "karawan6", markAndModel: "Chrysler 300C Touring 3.0 CRD DPF Automatik", color: "czarny" }']
-
-## generator zmarłych
+cars = ["karawan1",
+        "karawan2", 
+        "karawan3", 
+        "karawan4",
+        "karawan5",
+        "karawan6"]
 
 
-names = ["ANNA", "MARIA", "KATARZYNA", "MAŁGORZATA", "AGNIESZKA", "BARBARA", "EWA", "KRYSTYNA", "MAGDALENA", "ELŻBIETA", "JOANNA", "ALEKSANDRA", 
+
+wrong_names = ["ANNA", "MARIA", "KATARZYNA", "MAŁGORZATA", "AGNIESZKA", "BARBARA", "EWA", "KRYSTYNA", "MAGDALENA", "ELŻBIETA", "JOANNA", "ALEKSANDRA", 
              "ZOFIA", "MONIKA", "TERESA", "DANUTA", "NATALIA", "JULIA", "KAROLINA", "MARTA", "BEATA", "DOROTA", "HALINA", "JADWIGA", "JANINA", "ALICJA", 
              "JOLANTA", "GRAŻYNA", "IWONA", "IRENA", "PAULINA", "JUSTYNA", "ZUZANNA", "BOŻENA", "WIKTORIA", "URSZULA", "RENATA", "HANNA", "SYLWIA", "AGATA", "HELENA", 
              "PATRYCJA", "MAJA", "IZABELA", "EMILIA", "ANETA", "WERONIKA", "EWELINA", "OLIWIA", "MARTYNA", "KLAUDIA", "MARIANNA", "MARZENA", "GABRIELA", 
@@ -85,8 +85,8 @@ names = ["ANNA", "MARIA", "KATARZYNA", "MAŁGORZATA", "AGNIESZKA", "BARBARA", "E
                         "ELIASZ", "IZYDOR", "DIONIZY", "ŁUCJAN", "EWALD", "GERHARD", "ELIGIUSZ", "JOHN", "ANTHONY", "MARCO", "ROCH", "JAROMIR", "KASJAN", 
                         "MYKHAYLO", "SIMON", "MAKS", "RAFAEL", "BRIAN", "MOHAMED", "RADOMIR",
               "ROSTYSLAV", "BAZYLI", "NICHOLAS", "ZBYSŁAW", "JONATHAN", "VINCENT", "ALI", "WIT", "ULADZIMIR", "YURY", "SERHIY", "VITALIY", "VITALI", "KOSMA"]
-
-surnames = ["NOWAK","KOWALSKI","WIŚNIEWSKI","WÓJCIK","KOWALCZYK","KAMIŃSKI","LEWANDOWSKI","ZIELIŃSKI","SZYMAŃSKI","WOŹNIAK","DĄBROWSKI",
+names = [name.capitalize() for name in wrong_names]
+wrong_surnames = ["NOWAK","KOWALSKI","WIŚNIEWSKI","WÓJCIK","KOWALCZYK","KAMIŃSKI","LEWANDOWSKI","ZIELIŃSKI","SZYMAŃSKI","WOŹNIAK","DĄBROWSKI",
                 "KOZŁOWSKI","JANKOWSKI","MAZUR","KWIATKOWSKI","WOJCIECHOWSKI","KRAWCZYK","KACZMAREK","PIOTROWSKI","GRABOWSKI","ZAJĄC","PAWŁOWSKI",
                 "KRÓL","MICHALSKI","WRÓBEL","WIECZOREK","JABŁOŃSKI","NOWAKOWSKI","MAJEWSKI","OLSZEWSKI","STĘPIEŃ","DUDEK","JAWORSKI","ADAMCZYK",
                 "MALINOWSKI","GÓRSKI","PAWLAK","NOWICKI","SIKORA","WITKOWSKI","RUTKOWSKI","WALCZAK","BARAN","MICHALAK","SZEWCZYK","OSTROWSKI",
@@ -131,6 +131,7 @@ surnames = ["NOWAK","KOWALSKI","WIŚNIEWSKI","WÓJCIK","KOWALCZYK","KAMIŃSKI","
                 "MICHAŁEK","KASZUBA","KUC","GWÓŹDŹ","PROKOP","DZIUBA","RUCIŃSKI","DUBIEL","MALICKI","ZAGÓRSKI","BIAŁY","JANKOWIAK","BIELAK",
                 "BOŻEK","ŚWIERCZYŃSKI","KACZMARSKI","MODZELEWSKI","KĘPA","PARTYKA","ZWOLIŃSKI","SKÓRA","GAŁKA","JANUSZ","PŁONKA","BIEŃKOWSKI",
                 "MILCZAREK",]
+surnames = [name.capitalize() for name in wrong_surnames]
 streets= ["Rybałtowska", "Składowa", "Sołtysa Dytmara", "Spokojna", "Stanisława Kunickiego", "Stanisława Lentza", "Stanisława Pyjasa", 
           "św. Bronisławy", "Śląska", "Śmiała", "Wjazdowa", "Rzepichy", "Królewska", "Aleja Kasy Oszczędności Miasta Krakowa", 
           "Kazimierza Wielkiego", "Koło Strzelnicy", "Aleja Konarowa", "Kopalina", "Jadwigi z Łobzowa", "Henryka Rodakowskiego", "Cygańska",
@@ -202,57 +203,188 @@ streets= ["Rybałtowska", "Składowa", "Sołtysa Dytmara", "Spokojna", "Stanisł
           "Turystyczna", "Waleczna", "Wesele", "Wilczy Stok", "Wioślarska", "Władysława Żeleńskiego", "Wojskowa", "Chmurna", "Jęczmienna", "Belwederczyków",
           "Bolesława Wallek-Walewskiego", "Na Wyrębę", "Juliana Tokarskiego", "Józefa Wybickiego", "Józefa Mackiewicza", "Józefa Kałuży", "Koralowa", "Józefa Becka"]
 
-# for i in range(700):
-#         name = random.choice(names)
-#         surname = random.choice(surnames)
-#         _id = f"{name}{surname}"
-#         deceasedID.append(_id)
-#         birth_year = random.randint(1939, 1998)
-#         birth_month = random.randint(1, 12)
-#         birth_day = random.randint(1, 28)
-#         birth_date = datetime.datetime(birth_year, birth_month, birth_day)
-#         death_year = random.randint(2015, 2022)
-#         death_month = random.randint(1, 12)
-#         death_day = random.randint(1, 28)
-#         death_date = datetime.datetime(death_year, death_month, death_day, 0, 0)
-#         datasmierci.append(death_date)
-#         pesel = f"{birth_date.year%100}{birth_date.month:02d}{birth_date.day:02d}" + str(random.randint(100000, 999999))
-#         deceasedInfo.append({
-#             "_id": _id,
-#             "name": name,
-#             "surname": surname,
-#             "birthDate": str(birth_date.date()),
-#             "deathDate": str(death_date.date()),
-#             "pesel": str(pesel)  
-#         })
 
+nameAndSurname_list = []
+
+## generator deceasedInfo
+for i in range(700):
+        name = random.choice(names)
+        surname = random.choice(surnames)
+        _id = f"{name}{surname}{[i+1]}"
+        nameAndSurname_list.append(f"{name} {surname}")
+        zmarly.append(_id)
+        birth_year = random.randint(1939, 1998)
+        birth_month = random.randint(1, 12)
+        birth_day = random.randint(1, 28)
+        birth_date = datetime(birth_year, birth_month, birth_day)
+        death_year = random.randint(2015, 2022)
+        death_month = random.randint(1, 12)
+        death_day = random.randint(1, 28)
+        death_date = datetime(death_year, death_month, death_day, 0, 0)
+        datasmierci.append(death_date)
+        pesel = f"{birth_date.year%100}{birth_date.month:02d}{birth_date.day:02d}" + str(random.randint(100000, 999999))
+        pesel_list.append(pesel)
+        deceasedInfo.append({
+            "_id": _id,
+            "name": name,
+            "surname": surname,
+            "birthDate": str(birth_date.date()),
+            "deathDate": str(death_date.date()),
+            "pesel": str(pesel)  
+        })
+#zapis do pliku
+linia = "".join(str(deceasedInfo))
+f = open("zmarli.txt",mode='w')
+f.write(linia)
+f.close()
+# print(zmarly)
+# print(datasmierci)
+transport_list = []
+
+towns = [ "Alwernia", "Dobczyce", "Kalwaria Zebrzydowska", "Krzeszowice", "Myślenice",
+          "Niepołomice", "Olkusz", "Skawina", "Słomniki", "Sułkowice", "Świątniki Górne", 
+          "Wadowice", "Wieliczka", "Zator", "Trzebinia", "Chrzanów", "Jaworzno", "Libiąż", 
+          "Chełmek", "Oświęcim"]
+#generowanie danych trnasportów
 transportDetails = []
 for i in range(700):
       streetName = random.choice(streets)
-      streetNr= random.randint(1,100)
-      _id = f"{streetName}{streetNr}"
-      houseNr =  random.randint(1,100)
+      houseNr= random.randint(1,300)
+      town = random.choice(towns)
+      _id = f"{town} {streetName} {houseNr}"
+      transport_list.append(_id)
       postalCode=  f"{random.randint(29,32)}-{random.randint(100,600)}"
       car = random.choice(cars)
-      driver = random.choice(drivers)
+      driver = random.choice(drivers) 
       transportDetails.append({
       "_id": _id,
       "pickUpLocation": {
-        "town": "Kraków",
+        "town": town,
         "streetName": streetName, 
-        "streetNr": streetName,
-        "houseNr": houseNr,
+        "houseNr": str(houseNr),
         "postalCode": postalCode},
       "car": car,
-      "driver": drivers})
-    
+      "driver": driver})
+#zapis do pliku      
+linia = "".join(str(transportDetails))
+f = open("transport.txt",mode='w')
+f.write(linia)
+f.close()
 
+
+
+cmentarze = ["Cmentarz Batowicki","Cmentarz Grębałów","Cmentarz Kraków-Podgórze",
+             "Cmentarz Kraków-Prądnik Czerwony","Cmentarz Mogilski","Cmentarz Mydlniki",
+             "Cmentarz Rakowicki", "Cmentarz Salwatorski", "Nowy cmentarz żydowski",
+             "Cmentarz Batowicki", "Cmentarz Grębałów"]
+cmentarze_lista = []
+literki = ["a", "b", "c", "e",  "f", "g", "h", "i", "j", "k", "l", "m"]
+funeralID_lista = []
+funeralDetails = []
+czy_communal = []
+funeralDates = []
+
+
+for i in range(700):
+    deceasedID = zmarly[i]
+    deathDate = datasmierci[i] 
+    pesel = pesel_list[i] 
+    nameAndSurname = nameAndSurname_list[i]
+    data = str(deathDate.date)
+    days_between = random.randint(2, 10)
+    funeralDate = deathDate + timedelta(days=days_between)
+    data = str(funeralDate.date())
+    _id = f"{deceasedID}{data}"
+    funeralID_lista.append(_id)
+    funeralDates.append(data)
+    k = random.randint(1, len(additionalServices))
+    services = random.sample(additionalServices, k)
+    lista_str = str(services)
+    lista_str = lista_str.replace("[", "")
+    lista_str = lista_str.replace("]", "")
+    pallbearers = random.choice(trunnonosze)
+    aservices = f"[{lista_str}]"
+    startPrice = 2000
+    prices= 0 
+    for service in services:
+        if "price" in service:
+            prices += int(service["price"])
+    #print(prices)
+    #prices = sum(service['price'] for service in aservices)
+    palprice = int(pallbearers["price"])
+    aservPrice= prices + palprice
+    summPrice = startPrice + aservPrice
+    transportID = random.choice(transport_list)
+    graveyard = random.choice(cmentarze)
+    town = "Kraków"
+    alley = random.randint(1, 100)
+    letters = random.choice(literki)
+    sector = f"{letters}{random.randint(1, 100)}"
+    nr = random.randint(1, 300)
+    communal = random.choice(["Tak", "Nie"])
+    cmentarze_lista.append(graveyard)
+    czy_communal.append(communal)
+    
+    funeralDetails.append({
+        "_id": _id,
+        "funeralDate": data,
+        "deceasedInfo": {
+            "deceasedID": deceasedID,
+            "nameAndSurname": nameAndSurname,
+            "pesel": str(pesel)
+            },
+        "aservices": {
+            "aservices": services,
+            "pallbearers": pallbearers},
+        "transportID": transportID,
+        "placeOfBurial": {
+            "graveyardName": graveyard,
+            "town": town,
+            "alley":str(alley),
+            "sector":sector,
+            "nr":str(nr),
+            "communal":communal},
+            "price":{
+                "startPrice": str(startPrice),
+                "aservPricec": str(aservPrice),
+                "summPrice": str(summPrice)}})
+linia = "".join(str(funeralDetails))
+f = open("pogrzeby.txt",mode='w')
+f.write(linia)
+f.close()
+
+funeralList = []
+for i in range(700):
+    idfuneral = funeralID_lista[i]
+    datefuneral = funeralDates[i]
+    deathDate = datasmierci[i]
+    deceasedID = zmarly[i]
+    graveyards = cmentarze_lista[i]
+    communal = czy_communal[i]
+    nameAndSurname = nameAndSurname_list[i]
+    funeralList.append({
+        "_id": idfuneral,
+        "funeralDate": datefuneral,
+        "deceasedInfo": {
+            "deceasedID": deceasedID,
+            "deathDate": str(deathDate.date()),
+            "nameAndSurname": nameAndSurname
+            },
+        "graveyard": {
+            "communal": communal,
+            "town": "Kraków",
+            "graveyardName": graveyards}})
+    
+linia = "".join(str(funeralList))
+f = open("pogrzeby_lista.txt",mode='w')
+f.write(linia)
+f.close() 
 
 
 ## generator
 
 #printy
-# print(deceasedInfo)
+#print(deceasedInfo)
 # print(funeralDetails)
 # print(FuneralList)
-#print(transportDetails)
+# print(transportDetails)
